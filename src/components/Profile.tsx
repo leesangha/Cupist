@@ -1,39 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
+import UserIcon from "../assets/user.png";
+import styled from "styled-components";
+import Modal from "./Modal";
 
-const Profile: React.FC = () => {
+type User = {
+  [index: string]: string;
+  nickname: string;
+  birth: string;
+};
+const Profile: React.FC = React.memo(() => {
+  const arr = [
+    { key: "nickname", label: "닉네임" },
+    { key: "birth", label: "생일" },
+  ];
+  const [userState, setUserState] = useState<User>({
+    nickname: "홍길동",
+    birth: "1996-07-28",
+  });
+  const [tab, setTab] = useState<boolean>(false);
+  const [content, setContent] = useState<string>("");
+  const ChangeStatus = (value: string) => {
+    setTab(!tab);
+    setContent(value);
+  };
   return (
     <section>
       <div>
-        <div>picture</div>
+        {/* <div>
+          <img
+            src={UserIcon}
+            alt="userIcon"
+            style={{ background: "transparent" }}
+            onClick={() => {
+              console.log("onClick");
+            }}
+          />
+        </div> */}
+        {tab ? (
+          <Modal
+            visible={tab}
+            setTab={setTab}
+            content={content}
+            setUserState={setUserState}
+          />
+        ) : null}
         <div>
-          <ul>
-            <li>
-              <label>nickname</label>
-            </li>
-            <li>sex</li>
-            <li>birth</li>
-            <li>location</li>
-            <hr />
-            <li>description</li>
-            <hr />
-            <li>height</li>
-            <li>body</li>
-            <hr />
-            <li>work</li>
-            <li>job</li>
-            <li>university</li>
-            <li>school</li>
-            <hr />
-            <li>character</li>
-            <li>religion</li>
-            <li>drink</li>
-            <li>smoke</li>
-            <li>blood</li>
-            <li>race</li>
-          </ul>
+          <List>
+            {arr.map(({ key, label }, index) => {
+              return (
+                <Items key={index}>
+                  <label>{label}</label>
+                  <span onClick={() => ChangeStatus(key)}>
+                    {userState[key]}
+                  </span>
+                </Items>
+              );
+            })}
+          </List>
         </div>
       </div>
     </section>
   );
-};
+});
+const List = styled.ul`
+  list-style: none;
+  hr {
+    display: none;
+  }
+`;
+const Items = styled.li`
+  label {
+    float: left;
+    width: 120px;
+  }
+  span {
+    color: #29b6f6;
+  }
+`;
+
 export default Profile;
