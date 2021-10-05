@@ -1,13 +1,15 @@
 import React, { useRef } from "react";
 import styled from "styled-components";
-const NickName: React.FC<{ setUserState: any; setTab: any }> = (props: any) => {
-  const { setUserState, setTab } = props;
+const NickName: React.FC<{ userState: any; setUserState: any; setTab: any }> = (
+  props: any
+) => {
+  const { userState, setUserState, setTab } = props;
   const nickRef = useRef<HTMLInputElement>(null);
   return (
     <NickNameWrapper>
       <label>닉네임을 변경하시겠어요?</label>
       <InputWrapper>
-        <input type="text" ref={nickRef} />
+        <input type="text" ref={nickRef} defaultValue={userState["nickname"]} />
         <button
           className="btn_clear"
           onClick={() => {
@@ -16,7 +18,15 @@ const NickName: React.FC<{ setUserState: any; setTab: any }> = (props: any) => {
         ></button>
       </InputWrapper>
       <ButtonWrapper>
-        <button className="btn_nick">닉네임 변경</button>
+        <button
+          className="btn_nick"
+          onClick={() => {
+            setUserState({ ...userState, nickname: nickRef.current.value });
+            setTab(false);
+          }}
+        >
+          닉네임 변경
+        </button>
         <button className="btn_back" onClick={() => setTab(false)}>
           돌아가기
         </button>

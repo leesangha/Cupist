@@ -3,36 +3,42 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import Birth from "./ModalContents/Birth";
 import NickName from "./ModalContents/NickName";
-
+import { User } from "./Profile";
 const Modal: React.FC<{
   visible: boolean;
   setTab: any;
   content: string;
+  userState: User;
   setUserState: any;
-}> = React.memo(({ children, visible, setTab, content, setUserState }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  const handleOuterClick = ({ target }: any) => {
-    // console.log("handleOuterClick");
-    if (visible && !modalRef.current?.contains(target)) setTab(false);
-  };
-  useEffect(() => {
-    window.addEventListener("click", handleOuterClick);
-    return window.removeEventListener("click", handleOuterClick);
-  }, []);
-  return (
-    <>
-      <ModalOverlay visible={visible} />
-      <ModalWrapper visible={visible} onClick={handleOuterClick}>
-        <ModalInner ref={modalRef}>
-          {content === "nickname" ? (
-            <NickName setUserState={setUserState} />
-          ) : null}
-          {content === "birth" ? <Birth setUserState={setUserState} /> : null}
-        </ModalInner>
-      </ModalWrapper>
-    </>
-  );
-});
+}> = React.memo(
+  ({ children, visible, setTab, content, userState, setUserState }) => {
+    const modalRef = useRef<HTMLDivElement>(null);
+    const handleOuterClick = ({ target }: any) => {
+      if (visible && !modalRef.current?.contains(target)) setTab(false);
+    };
+    useEffect(() => {
+      window.addEventListener("click", handleOuterClick);
+      return window.removeEventListener("click", handleOuterClick);
+    }, []);
+    return (
+      <>
+        <ModalOverlay visible={visible} />
+        <ModalWrapper visible={visible} onClick={handleOuterClick}>
+          <ModalInner ref={modalRef}>
+            {content === "nickname" ? (
+              <NickName
+                userState={userState}
+                setUserState={setUserState}
+                setTab={setTab}
+              />
+            ) : null}
+            {content === "birth" ? <Birth setUserState={setUserState} /> : null}
+          </ModalInner>
+        </ModalWrapper>
+      </>
+    );
+  }
+);
 
 const ModalWrapper = styled.div<{ visible: boolean }>`
   box-sizing: border-box;

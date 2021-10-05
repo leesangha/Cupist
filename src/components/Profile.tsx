@@ -3,7 +3,7 @@ import UserIcon from "../assets/user.png";
 import styled from "styled-components";
 import Modal from "./Modal";
 
-type User = {
+export type User = {
   [index: string]: string;
   nickname: string;
   birth: string;
@@ -41,6 +41,7 @@ const Profile: React.FC = React.memo(() => {
             visible={tab}
             setTab={setTab}
             content={content}
+            userState={userState}
             setUserState={setUserState}
           />
         ) : null}
