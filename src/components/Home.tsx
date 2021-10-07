@@ -1,15 +1,9 @@
 import React from "react";
-
+import Tab from "./Tab";
 const Home: React.FC = () => {
   return (
     <div>
-      <nav>
-        <ul>
-          <li>Glam</li>
-          <li>Live</li>
-          <li>Nearby</li>
-        </ul>
-      </nav>
+      <Tab></Tab>
     </div>
   );
 };
