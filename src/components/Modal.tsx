@@ -13,18 +13,22 @@ const Modal: React.FC<{
 }> = React.memo(
   ({ children, visible, setTab, content, userState, setUserState }) => {
     const modalRef = useRef<HTMLDivElement>(null);
-    const handleOuterClick = ({ target }: any) => {
-      if (visible && !modalRef.current?.contains(target)) setTab(false);
-    };
-    useEffect(() => {
-      window.addEventListener("click", handleOuterClick);
-      return window.removeEventListener("click", handleOuterClick);
-    }, []);
+    // const handleOuterClick = ({ target }: any) => {
+    //   console.log("handle");
+    //   if (visible && !modalRef.current?.contains(target)) setTab(false);
+    // };
+    // useEffect(() => {
+    //   window.addEventListener("click", handleOuterClick);
+    //   return window.removeEventListener("click", handleOuterClick);
+    // }, []);
     return (
       <>
         <ModalOverlay visible={visible} />
-        <ModalWrapper visible={visible} onClick={handleOuterClick}>
+        <ModalWrapper visible={visible} /*onClick={handleOuterClick}*/>
           <ModalInner ref={modalRef}>
+            <button className="btn_close" onClick={() => setTab(false)}>
+              X
+            </button>
             {content === "nickname" ? (
               <NickName
                 userState={userState}
@@ -32,7 +36,9 @@ const Modal: React.FC<{
                 setTab={setTab}
               />
             ) : null}
-            {content === "birth" ? <Birth setUserState={setUserState} /> : null}
+            {content === "birth" ? (
+              <Birth userState={userState} setUserState={setUserState} />
+            ) : null}
           </ModalInner>
         </ModalWrapper>
       </>
@@ -51,6 +57,7 @@ const ModalWrapper = styled.div<{ visible: boolean }>`
   z-index: 800;
   overflow: auto;
   outline: 0;
+  padding: 10px 5px;
 `;
 const ModalOverlay = styled.div<{ visible: boolean }>`
   box-sizing: border-box;
@@ -75,7 +82,14 @@ const ModalInner = styled.div`
   top: 50%;
   transform: translateY(-50%);
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 20px;
   z-index: 801;
+  .btn_close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    border-radius: 10px;
+  }
 `;
 export default Modal;
