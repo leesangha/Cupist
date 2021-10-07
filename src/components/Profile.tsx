@@ -24,7 +24,7 @@ const Profile: React.FC = React.memo(() => {
     setContent(value);
   };
   return (
-    <section>
+    <Section>
       <div>
         {/* <div>
           <img
@@ -60,9 +60,14 @@ const Profile: React.FC = React.memo(() => {
           </List>
         </div>
       </div>
-    </section>
+    </Section>
   );
 });
+const Section = styled.section`
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
 const List = styled.ul`
   list-style: none;
   hr {
